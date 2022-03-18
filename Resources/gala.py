@@ -37,8 +37,8 @@ def home():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/fib<br/>"
-        f"/api/v1.0/startend<br/>"
+        f"/api/v1.0/start replace 'start' with an actual date <br/>"
+        f"/api/v1.0/start/end replace 'start' and 'end with an actual date"
     )
 
 
@@ -64,16 +64,16 @@ def get_tobs():
     byemon = list(np.ravel(hist2))
     return jsonify(byemon)
 
-@app.route("/api/v1.0/fib")
-def start_range():
-    bib = session.query(func.avg(me.tobs), func.max(me.tobs), func.min(me.tobs)).filter(me.date >= "2010-01-01").group_by(me.date).all()
+@app.route("/api/v1.0/<start>")
+def start_range(start):
+    bib = session.query(func.avg(me.tobs), func.max(me.tobs), func.min(me.tobs)).filter(me.date >= start).all()
     fib = list(np.ravel(bib))
     print(fib)
     return jsonify(fib)
 
-@app.route("/api/v1.0/startend")
-def startend():
-    gib = session.query(func.avg(me.tobs), func.max(me.tobs), func.min(me.tobs)).filter(me.date >= "2010-01-01").filter(me.date <= "2017-08-23").group_by(me.date).all()
+@app.route("/api/v1.0/<start>/<end>")
+def startend(start,end):
+    gib = session.query(func.avg(me.tobs), func.max(me.tobs), func.min(me.tobs)).filter(me.date >= start).filter(me.date <= end).all()
     lib = list(np.ravel(gib))
     return jsonify(lib)
 
